@@ -1,0 +1,149 @@
+<html>
+  <head>
+    <title>Examen: Visualización de información</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="./style.css" />
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://d3js.org/d3-geo-projection.v4.min.js"></script>
+  </head>
+
+  <body>
+    
+    <div class="title">
+      <h1>Examen: Visualización de información</h1>
+      <h2>Diversidad de paises en las principales plataformas de streaming de películas</h2>
+    </div>
+
+    <div class="introduction" style="text-align: center; margin-top: 30px;">
+      <h4>Benjamín Guiloff - 17642671</h4>
+    </div>
+
+    <hr width="80%" style="margin-bottom: 30px; margin-top: 30px;">
+    
+    
+    <!-- Tabs de https://www.w3schools.com/howto/howto_js_full_page_tabs.asp -->
+    <div class="navbar">
+      <button class="tablink" onclick="openPage('Netflix', this, 'rgb(229, 9, 20)')" id="defaultOpen">Netflix</button>
+      <button class="tablink" onclick="openPage('Prime', this, 'rgb(0, 168, 225)')">Prime Video</button>
+      <button class="tablink" onclick="openPage('Hulu', this, '#3dbb3d')">Hulu</button>
+      <button class="tablink" onclick="openPage('Disney', this, '#12194A')">Disney+</button>
+    </div>
+    
+    
+    
+    <div id="Netflix" class="tabcontent">
+      <div class="logo">
+        <img src="./data/img/netflix.png" alt="Netflix logo" width="120" height="60">
+      </div>
+      
+      <div class="horizontal-flex-container" style="display: flex;">
+        
+        <div style="flex: 2;"></div>
+
+        <div class="map-container" id="Netflix" style="flex: 8;">
+        </div>
+
+        <div id="Netflix" class="data-container" style="flex: 2;"></div>
+      
+      </div>
+    </div>
+
+    <div id="Prime" class="tabcontent">
+      <div class="logo">
+        <img src="./data/img/prime.png" alt="Prime Video logo" width="170" height="60">
+      </div>
+
+      <div class="horizontal-flex-container" style="display: flex;">
+        
+        <div style="flex: 2;"></div>
+
+        <div class="map-container" id="Prime" style="flex: 8;">
+        </div>
+
+        <div id="Prime" class="data-container" style="flex: 2;"></div>
+      
+      </div>
+    </div>
+
+    <div id="Hulu" class="tabcontent">
+      <div class="logo">
+        <img src="./data/img/hulu.png" alt="Hulu logo" width="170" height="60">
+      </div>
+
+      <div class="horizontal-flex-container" style="display: flex;">
+        
+        <div style="flex: 2;"></div>
+
+        <div class="map-container" id="Hulu" style="flex: 8;">
+        </div>
+
+        <div id="Hulu" class="data-container" style="flex: 2;"></div>
+      
+      </div>
+    </div>
+
+    <div id="Disney" class="tabcontent">
+      <div class="logo">
+        <img src="./data/img/disney.svg" alt="Disney+ logo" width="170" height="60">
+      </div>
+
+      <div class="horizontal-flex-container" style="display: flex;">
+        
+        <div style="flex: 2;"></div>
+
+        <div class="map-container" id="Disney" style="flex: 8;">
+        </div>
+
+        <div id="Disney" class="data-container" style="flex: 2;"></div>
+      
+      </div>
+    </div>
+
+    <div class="horizontal-flex-container" style="display: flex;">
+      <h2 class="country-name">seleccione un país para ver su cantidad de películas en cada plataforma</h2>
+    </div>
+
+    <!-- Gráfico de barras. Fuente: Semana 06 Utilidades de D3.js II, ejemplo_3  -->
+    <div class="horizontal-flex-container" style="display: block;">
+      <div class="graph-container" id="graph" style="margin-left: auto; margin-right: auto;"></div>
+    </div>
+
+    <div class="horizontal-flex-container" style="display: block;">
+      <h4 class="movies-name"></h4>
+    </div>
+
+    <!--Lista scrolleable. Fuente: https://stackoverflow.com/questions/14834198/table-scroll-with-html-and-css -->
+    <div class="movies-container">
+      <div class="visible-div" style = "align-self: center; display: none; margin: auto;">
+        <table id="big-table" cellspacing="0" cellpadding="0" border="0" width="800" height="160px" style="margin-right: auto; margin-left: auto;">
+          <tr>
+            <td>
+              <table cellspacing="0" cellpadding="1" border="1" width="775" >
+                <tr style="color:white;background-color:grey">
+                    <th class="header" style="font-size: medium;">Título</th>
+                    <th class="header" style="font-size: medium;">Año</th>
+                    <th class="header" style="font-size: medium;">Puntaje RT</th>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div style="width:100%; height:350px; overflow:auto;">
+                <table id="peliculas" cellspacing="0" cellpadding="1" border="1" width="100%" >
+                  
+                </table>  
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+  
+
+    <script src='./script.js'> </script>
+
+   
+  </body>
+</html>

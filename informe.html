@@ -1,0 +1,216 @@
+<html>
+  <head>
+    <title>Informe del Examen</title>
+    <meta charset="utf-8">
+  </head>
+
+  <body>
+    <h1>Informe de Examen</h1>
+    <h2>Benjamín Guiloff - 17642671</h2>
+
+    <ul>
+        <li><h3>Primer nivel: Caracterizacion de dominio</h3></li>
+            <p>A lo largo de la última decada ha sido evidente el aumento en la popularidad y el alcance de
+            los servicios por suscripción a la carta en streaming de series y películas. Durante la pandemia, el
+            mercado de plataformas de streaming llegó a los mil millones de suscriptores.</p> 
+
+            <p> Con esto, la diversidad de demanda de contenido multimedia no se queda atrás. Películas interncacionales 
+            como Parasite (Corea del Sur, 2019) o Another Round (Dinamarca, 2020) han alcanzado la fama y el éxito internacional,
+            posicionandose al mismo nivel que las tradicionales películas de éxito mundial, provenientes históricamente de 
+            paises angloparlantes, principalmente EEUU, Reino Unido y Canadá.</p>
+
+            <p>
+                En este contexto, se vuelve relevante entender la diversidad geográfica del contenido que compone las distintas plataformas 
+                disponibles, y cómo se relaciona esa diversidad con el éxito de dicho contenido.
+            </p>
+
+            <p>
+                En base a lo anterior, la herramienta que será presentada en este informe tiene como usuario objetivo a aquellas personas
+                que ocupan cargos relacionados a las decisiones de incorporación de nuevo contenido en una de las 4 plataformas de streaming 
+                de películas que acá se analizarán.
+                Las 4 plataformas en las que se enfoca esta visualización son:
+            </p>
+            <ol>
+                <li><b>Netflix</b> (~210 millones de suscriptores)</li>
+                <li><b>Amazon Prime Video</b> (~100 millones)</li>
+                <li><b>Disney+</b> (~94 millones)</li>
+                <li><b>Hulu</b> (~39 millones)</li>
+            </ol>
+            <p> 
+                Mediante esta herramienta, se espera que el usuario sea capaz de reconocer los niveles de disponibilidad que ofrece de películas de 
+                distintos países, y cómo se comparan estos con la oferta de sus competidores. Todo esto con el fin de esclarecer y facilitar 
+                la toma de decisiones relacionadas a la incorporación de nuevas películas a la plataforma. Se entiende como "película de un país" 
+                aquella que está ambientada, grabada o inspirada en dicho país, tanto parcial como totalmente.
+            </p>
+
+            <p>
+                Los información utilizada en este trabajo fue obtenida principalmente del dataset <b>MoviesOnStreamingPlatforms_updated.csv</b>,
+                el cual fue confeccionado por Ruchi Bhatia y obtenido a través de kaggle.com. El dataset contiene 17 columnas, sin embargo, 
+                la información de cada película utilizada para esta tares fue la siguiente:
+            </p>
+            <ul>
+                <li>Título</li>
+                <li>Año</li>
+                <li>País</li>
+                <li>Puntaje según Rotten Tomatoes</li>
+            </ul>
+            <p>
+                Además, los datos fueron procesados para obtener la cantidad de películas por plataforma de cada país. Lo anterior, junto a información del 
+                dataset <b>countries.geojson</b> (obtenido de datahub.io) utilizada para crear el mapa, está contenido en dos archivos que son los que se utilizan en la herramienta: 
+            </p>
+            <ul>
+                <li>
+                    <b>countriesStats.json</b>, que tiene la información geográfica de los países junto a las estadísticas de cada país.
+                </li>
+                <li>
+                    <b>paisesPeliculas.json</b>, que tiene una lista con las información de todas las películas para cada país.
+                </li>
+            </ul>
+
+        <br>
+
+        <li><h3>Segundo nivel: Abstracción de datos y tareas</h3></li>
+            <h4>Tareas:</h4>
+            <ol>
+                <li> <b>Identificar la distribución geográfica del contenido de cada plataforma</b></li>
+                <p>Las empresas podrán sondear las cantidades de películas que aporta cada país a su plataforma,
+                    y así tener una idea general del nivel de diversidad de esta.</p>
+                <li><b>Comparar la cantidad de películas de un país en particular que hay en cada plataforma</b> </li>
+                <p>Cada empresa podrá conocer la cantidad de películas de un país que tiene su plataforma, y compararla 
+                    con la cantidad que tienen las demás plataformas.</p>
+                <li><b>Conocer el listado de películas que ofrece cada plataforma</b></li>
+                <p>Las empresas podrán ver en detalle cuáles son la peliculas de cada país que hay disponibles en su plataforma
+                    o en las plataformas competidoras.
+                </p>
+            </ol>
+
+            <h4>Abstracción de datos:</h4>
+            <p>Para esta visualización se obtienen los datos de 2 datasets:</p>
+            <ol>
+                <li><b>countriesStats.json:</b></li>
+                <p> 
+                    Este objeto json tiene por cada país 3 elementos que se comportan como un dataset cada uno.
+                </p>
+                <p>El primero es <b>properties</b> y es de tipo tabular y estático. Tiene 2 atributos:</p>
+                <ul>
+                    <li>
+                        "ADMIN": Corresponde al nombre del país en inglés. Es de tipo categórico y llave.
+                    </li>
+                    <li>
+                        "ISO-A3": Código de 3 letras del país. Es de tipo categórico y llave.
+                    </li>
+                </ul>
+                <p>El segundo es <b>geometry</b> y es de tipo geométrico. Tiene 2 atributos:</p>
+                <ul>
+                    <li>
+                        "type": El tipo de forma que definen las coordenadas. Es de tipo categórico y valor.
+                    </li>
+                    <li>
+                        "coordinates": Coordenadas para construir forma del país. Es de tipo posición.
+                    </li>
+                </ul>
+                <p>El tercero es <b>stats</b> y es de tipo tabular. Tiene 5 atributos:</p>
+                <ul>
+                    <li>
+                        "qMovies": Cantidad total de películas de ese país presente en alguna de las 4 plataformas. Es de tipo ordenado, cuantitativo, secuencial, no cíclico y valor.
+                    </li>
+                    <li>
+                        "qNetflix": Cantidad total de películas de ese país presentes en Netflix. Es de tipo ordenado, cuantitativo, secuencial, no cíclico y valor.
+                    </li>
+                        "qPrime": Cantidad total de películas de ese país presentes en Amazon Prime Video. Es de tipo ordenado, cuantitativo, secuencial, no cíclico y valor.
+                    <li>
+                        "qHulu": Cantidad total de películas de ese país presentes en Hulu. Es de tipo ordenado, cuantitativo, secuencial, no cíclico y valor.
+                    </li>
+                    <li>
+                        "qDisney": Cantidad total de películas de ese país presentes en Disney+. Es de tipo ordenado, cuantitativo, secuencial, no cíclico y valor.
+                    </li>
+                </ul>
+                <br>
+                <li><b>paisesPelículas.json:</b></li>
+                <p> 
+                    Este objeto json tiene, por cada país (ítem), un arreglo de objetos. Cada objeto del arreglo
+                    contiene la información de una película (ítem), correspondiente al país.
+                    Los atributos de cada ítem (película) son los siguientes:
+                </p>
+                <ul>
+                    <li>
+                        "Title": Titulo de la película en inglés. Es de tipo categórico y valor.
+                    </li>
+                    <li>
+                        "Year": Año de estreno de la película. Es de tipo ordenado, ordinal, divergente, no cíclico y valor.
+                    </li>
+                    <li>
+                        "Rotten Tomatoes": Puntuación según el sitio web Rotten Tomatoes. Es de tipo ordenado, cuantitativo, secuencial, no cíclico y valor.
+                    </li>
+                    <li>
+                        "Netflix": Atributo binario (0 ó 1) que representa si la película está en Netflix. Es de tipo categórico y valor.
+                    </li>
+                    <li>
+                        "Prime Video": Atributo binario (0 ó 1) que representa si la película está en Amazon Prime Video. Es de tipo categórico y valor.
+                    </li>
+                    <li>
+                        "Hulu": Atributo binario (0 ó 1) que representa si la película está en Hulu. Es de tipo categórico y valor.
+                    </li>
+                    <li>
+                        "Disney+": : Atributo binario (0 ó 1) que representa si la película está en Disney+. Es de tipo categórico y valor.
+                    </li>
+                </ul>
+            </ol>
+
+        <br>
+
+        <li><h3>Tercer nivel: Codificación visual y de interacción:</h3></li>
+        <div>
+            <h4><b>TAREA 1:</b> Distribución geográfica</h4>
+            <p> 
+                Al comienzo de la visualización, se muestra una barra con 4 botones, uno por cada plataforma.
+                Esta barra permite seleccionar la plataforma según la cual se mostrará la información en el mapa coroplético (que será explicado más adelante).
+                Corresponde a un idiom de interacción, y cada botón es una marca de ítem.
+                Al presionar uno de los botones, este toma el color del logo de la plataforma. Esto corresponde a un canal de identidad.
+            
+            <p>
+                En cuanto al mapa, este corresponde a un idiom de interacción, que le permite al usuario posicionar el cursor sobre un país, 
+                gatillando la aparición de una etiqueta con su nombre y cantidad de películas en la plataforma escogida. 
+                El color de los países es el mismo que el del logo de la plataforma seleccionada, y la cantidad de películas se representa
+                por la tonalidad del color (más oscuro significa más películas). Esto corresponde a un canal de magnitud. 
+                El mapa utiliza una 
+                proyección de Mercator, debido a que permite reconocer de buena forma los distintos países en el mapa.
+            
+            <p>
+                Este idiom satisface la primera tarea planteada, ya que da a conocer como distribuyen las cantidades de películas por paises
+                para cada plataforma, y conocer que países aportan más películas que otros.
+            </p>
+            
+            <p>
+                Al presionar un país, se rellena un gráfico de barras que representa cuántas películas aporta dicho país a cada 
+                plataforma. El color de cada barra se condice con el color del logo de la plataforma correspondiente (canal de identidad), 
+                y el largo representa la cantidad de películas (canal de magnitud). La decisión de utilizar un gráfico de barras se 
+                sustenta en que la longitud se posiciona en un lugar alto de la escala de efectividad para ese tipo de atributos.
+            </p>
+
+            <p>
+                El gráfico de barra corresponde a un idiom visual, ya que el usuario no puede producir un cambio en este. 
+            </p>
+
+            <p>
+                Este idiom satisface la segunda tarea, ya que es posible comparar de forma visual y evidente la cantidad de películas de un país en particular en cada plataforma.
+            </p>
+
+            <p>
+                Al hacer click sobre una de las barras, se despliega un listado con las películas del país anteriormente seleccionado
+                disponibles en la plataforma asociada a la barra. El listado está en forma de tabla, donde en cada fila se muestra el título, año y puntaje de 
+                la película. La desición de codificar los datos en una tabla se debe a la facilidad de lectura de esta.
+                La tabla corresponde a un idiom visual.
+            </p>
+
+            <p>
+                Este idiom satisface la tercera tarea, de conocer las películas por país ofrecidas por cada plataforma, y el detalle de cada una.
+            </p>
+        </div>
+    </ul>
+  </body>
+</html>
+
+<!-- https://www.larepublica.co/globoeconomia/el-mercado-de-streaming-llego-a-1000-millones-de-usuarios-en-la-pandemia-3177826 -->
+<!-- https://www.semana.com/economia/empresas/articulo/netflix-amazon-prime-y-el-ranking-de-las-plataformas-de-streaming-con-mas-suscriptores-en-el-mundo/202159/ -->
+<!-- https://los40.com/los40/2021/02/19/cinetv/1613744913_467495.html -->
